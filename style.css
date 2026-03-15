@@ -1,0 +1,30 @@
+body {
+    background:linear-gradient(to right, #000000, #1a0000);
+    color:white;
+    font-family: Arial;
+    text-align: center;
+    padding: 50px;
+}
+
+h1{
+    font-size: 60px;
+    color:red;
+}
+
+h2{
+    color:gray;
+    font-size: 30px;
+    font-variant: small-caps;
+}
+.circle{
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        border-radius: 50%;
+        border-color: aqua;
+        margin: 20px auto;
+    }
+.myimage {
+        width: 500px;
+        border-radius: 20%;
+    }
