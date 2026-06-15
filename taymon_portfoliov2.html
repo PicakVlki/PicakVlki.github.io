@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaymOn — Content & Editing Portfolio</title>
+  <style>
+    :root {
+      --bg-deep: #2b2d6e;
+      --bg-mid: #5a5fc7;
+      --bg-light: #8a8ee8;
+      --accent-red: #ff3b3b;
+      --text-light: #f5f5fa;
+      --text-dim: #d6d8f5;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 55%, var(--bg-light) 100%);
+      color: var(--text-light);
+      min-height: 100vh;
+      letter-spacing: 0.02em;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 70px;
+      max-width: 640px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+
+    /* ---------- Section labels ---------- */
+    .section-label {
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.45em;
+      color: var(--text-light);
+      font-weight: 600;
+      margin: 60px 0 36px;
+    }
+
+    /* ---------- Grids ---------- */
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 760px) {
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+    /* ---------- Cards (long form) ---------- */
+    .card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .card .title-tag {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      right: 0;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0 14px;
+      z-index: 3;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .card .big-text {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-weight: 900;
+      text-shadow: 0 0 18px rgba(255, 255, 255, 0.35), 0 4px 10px rgba(0, 0, 0, 0.6);
+      z-index: 2;
+    }
+
+    /* YouTube Thumbnail Styles */
+    .yt-thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      opacity: 0.9;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .card:hover .yt-thumbnail,
+    .short-card:hover .yt-thumbnail {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    /* Play button overlay */
+    .play-btn {
+      position: absolute;
+      z-index: 4;
+      width: 46px;
+      height: 46px;
+      background: var(--accent-red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(255, 59, 59, 0.6);
+    }
+
+    .play-btn::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 14px solid #fff;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      margin-left: 3px;
+    }
+
+    .watch-tag {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      z-index: 3;
+      font-size: 0.65rem;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+    }
+
+    /* ---------- Short form column cards ---------- */
+    .short-card {
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      aspect-ratio: 9 / 16;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .short-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+    }
+
+
+
+    /* ---------- CTA ---------- */
+    .cta {
+      text-align: center;
+      margin-top: 70px;
+    }
+
+    .cta a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 500;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      transition: opacity 0.2s ease;
+    }
+
+    .cta a:hover {
+      opacity: 0.75;
+    }
+
+    .cta .twitter-icon {
+      width: 36px;
+      height: 36px;
+      fill: var(--text-light);
+    }
+
+    /* Focus visibility for accessibility */
+    a:focus-visible,
+    .card:focus-visible,
+    .short-card:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .card,
+      .short-card,
+      .cta a {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrap">
+
+    <!-- Hero / About -->
+    <section class="hero">
+      <h1>Hi I'm TaymOn</h1>
+      <p>I am a 20 year old Slovenian obsessed with content creation and video design.</p>
+      <p>I've been editing and making content for 5+ years, and I love it.</p>
+      <p>I am proficient in Premiere Pro, Photoshop, and have some knowledge of After Effects.</p>
+      <p>I focus on psychological triggers, emotion and primal neuroscience to guide the viewer with sound design and
+        visuals.</p>
+      <p>I put heart, blood, and soul into everything I make, so it becomes the best possible content it can be.</p>
+    </section>
+
+    <!-- Long Form -->
+    <p class="section-label">Long Form</p>
+
+    <div class="grid grid-2">
+
+      <!-- YouTube Long Form Video 1 -->
+      <div class="card" style="border: none; padding: 0;">
+        <div class="guten-video-wrapper" style="width: 100%; height: 100%;">
+          <div class="guten-video-background" style="width: 100%; height: 100%;">
+            <div style="width: 100%; height: 100%;">
+              <iframe frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="YouTube video player" width="100%" height="100%" src="https://www.youtube.com/embed/E8dh-W3Wdd8?autoplay=0&mute=0&controls=1&origin=http%3A%2F%2Flocalhost" spellcheck="false"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YouTube Long Form Video 2 -->
+      <a class="card" href="https://www.youtube.com/watch?v=j0-CWXGeXig" target="_blank" rel="noopener noreferrer">
+        <img class="yt-thumbnail" src="https://img.youtube.com/vi/j0-CWXGeXig/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="play-btn"></div>
+        <span class="watch-tag">▶ Watch on YouTube</span>
+      </a>
+
+      <!-- YouTube Long Form Video 3 -->
+      <a class="card" href="https://www.youtube.com/watch?v=WDAk1aGlcqM" target="_blank" rel="noopener noreferrer">
+        <img class="yt-thumbnail" src="https://img.youtube.com/vi/WDAk1aGlcqM/maxresdefault.jpg" alt="Video Thumbnail">
+        <div class="play-btn"></div>
+        <span class="watch-tag">▶ Watch on YouTube</span>
+      </a>
+
+      <!-- YouTube Long Form Video 4 -->
+      <a class="card" href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_HERE" target="_blank" rel="noopener noreferrer">
+        <img class="yt-thumbnail" src="https://placehold.co/1280x720/1a1a2e/ffffff?text=Your+Video+Thumbnail" alt="Video Thumbnail">
+        <div class="play-btn"></div>
+        <span class="watch-tag">▶ Watch on YouTube</span>
+      </a>
+
+    </div>
+
+    <!-- Short Form -->
+    <p class="section-label">Short Form</p>
+
+    <div class="grid grid-3">
+
+      <!-- YouTube Short Video 1 -->
+      <a class="short-card" href="https://www.youtube.com/shorts/nk68jfPSnro" target="_blank" rel="noopener noreferrer">
+        <img class="yt-thumbnail" src="https://img.youtube.com/vi/nk68jfPSnro/maxresdefault.jpg" alt="Short Thumbnail">
+        <div class="play-btn"></div>
+      </a>
+
+      <!-- YouTube Short Video 2 -->
+      <a class="short-card" href="https://www.youtube.com/shorts/oae9SRinyJ8" target="_blank" rel="noopener noreferrer">
+        <img class="yt-thumbnail" src="https://img.youtube.com/vi/oae9SRinyJ8/maxresdefault.jpg" alt="Short Thumbnail">
+        <div class="play-btn"></div>
+      </a>
+
+      <!-- TikTok Short Video 3 -->
+      <a class="short-card" href="https://www.tiktok.com/@mdc_mavrica/video/7644291115729833238" target="_blank" rel="noopener noreferrer">
+        <!-- TikTok thumbnails cannot be fetched automatically. Replace this image src with your own custom image file! -->
+        <img class="yt-thumbnail" src="https://placehold.co/720x1280/1a1a2e/ffffff?text=TikTok+Thumbnail" alt="Short Thumbnail">
+        <div class="play-btn"></div>
+      </a>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        <span>dm me on twitter to work with me</span>
+        <svg class="twitter-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M23.953 4.57a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.06a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.937 4.937 0 0 0 4.604 3.417 9.868 9.868 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63a9.935 9.935 0 0 0 2.46-2.548l-.045-.02z" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
